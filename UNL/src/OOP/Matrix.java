@@ -28,7 +28,7 @@ public class Matrix
     private int size;
     private double mean;
     private double[][] matrix;
-    private double[][] transposedMatrix;
+    private double[][] R;
     
     private Scanner sc = new Scanner(System.in);
     private double sum;
@@ -37,18 +37,30 @@ public class Matrix
     public Matrix(int size)
     {
         this.size = size;
-        this.matrix = new double[size][size];
+        matrix = new double[size][size];
     }
     
-    public Matrix(double[][] aMatirx)
+    public Matrix(double[][] matirx)
     {
-        this.size = aMatirx.length;
-        this.matrix = aMatirx;
+        size = matirx.length;
+        this.matrix = matirx;
     }
     
     public void viewMatrix()
     {
-        for (double[] ds : this.matrix) 
+        for (double[] ds : matrix) 
+        {
+            for (double d : ds)
+            {
+                System.out.print("["+d+"] ");
+            }
+            System.out.println("");
+        }
+    }
+    
+    public void viewMatrix(double[][] matrix)
+    {
+        for (double[] ds : matrix) 
         {
             for (double d : ds)
             {
@@ -60,105 +72,121 @@ public class Matrix
     
     public void setMatriz()
     {
-        for (int i = 0; i < this.matrix.length; i++) 
-            for (int j = 0; j < this.matrix.length; j++)
+        for (int i = 0; i < matrix.length; i++) 
+            for (int j = 0; j < matrix.length; j++)
             {
                 System.out.print("["+i+j+"] > ");
-                this.matrix[i][j] = sc.nextDouble();
+                matrix[i][j] = sc.nextDouble();
             }                
     }
     
     
     public double getMeanDiagonal2()
     {
-        this.sum = 0;
-        for (int i= 0; i < this.matrix.length; i++) 
-            this.sum += this.matrix[i][this.matrix.length-1-i];
+        sum = 0;
+        for (int i= 0; i < matrix.length; i++) 
+            sum += matrix[i][matrix.length-1-i];
                       
-        this.mean = this.sum / this.size;
+        mean = sum / size;
         
         return mean;
     }
     
     public double getMeanAboveDiagonal2()
     {
-        this.sum = 0;
-        this.count = 0;
-        for (int i = 0; i < this.matrix.length-1; i++) 
-            for (int j = 0; j < this.matrix.length-1-i; j++) 
+        sum = 0;
+        count = 0;
+        for (int i = 0; i < matrix.length-1; i++) 
+            for (int j = 0; j < matrix.length-1-i; j++) 
             {
-                this.count++;
-                this.sum += this.matrix[i][j];
+                count++;
+                sum += matrix[i][j];
             }
                 
-        this.mean = this.sum / this.count;
+        mean = sum / count;
         
         return mean;
     }
     
     public double getMeanUnderDiagonal2()
     {
-        this.sum = 0;
-        this.count = 0;
-        for (int i = this.matrix.length-1; i > 0; i--) 
-            for (int j = this.matrix.length-1; j > this.matrix.length-1-i; j--) {
-                this.count++;
-                this.sum += this.matrix[i][j];
+        sum = 0;
+        count = 0;
+        for (int i = matrix.length-1; i > 0; i--) 
+            for (int j = matrix.length-1; j > matrix.length-1-i; j--) 
+            {
+                count++;
+                sum += matrix[i][j];
             }      
            
-        this.mean = this.sum / this.count;
+        mean = sum / count;
          
         return mean;
     }
     
-    public int getMultiplication()
+    public double[][] getMultiplication(double[][] matrixB)
     {
-        return 0;
-    }
-    public void getTransposedMatrix()
-    {
-        this.transposedMatrix = new double[this.size][this.size];
+        if( (matrix.length != matrixB.length) || (matrix[0].length != matrixB[0].length) )
+            throw new RuntimeException("Illegal Matrix Dimensions");
         
-        for (int i = 0; i < this.matrix.length; i++) 
-        {
-            for (int j = 0; j < 10; j++) 
-            {
-                this.transposedMatrix[][] = [][];
-            }
-        }
+        R = new double[size][size];
+        
+        for (int i = 0; i < matrix.length; i++) 
+            for (int j = 0; j < matrix[i].length; j++)
+                for (int k = 0; k < matrixB.length; k++) 
+                    R[i][j] +=  matrix[i][k]* matrixB[k][j];
+        
+        return R;
+    }
+    
+    public double[][] getTransposedMatrix()
+    {
+        R = new double[size][size];
+        
+        for (int i = 0; i < matrix.length; i++) 
+            for (int j = 0; j < matrix[i].length; j++) 
+                R[j][i] = matrix[i][j];
+            
+        return R;
     }
     
     public static void main(String[] args) 
     {
-        double[][] m = new double[4][4];
+        double[][] A = new double[3][3];
        
-        m[0][0] = 2; 
-        m[0][1] = 4; 
-        m[0][2] = 6; 
-        m[0][3] = 7; 
+        A[0][0] = 2; 
+        A[0][1] = 0; 
+        A[0][2] = 1; 
         
-        m[1][0] = 8; 
-        m[1][1] = 9; 
-        m[1][2] = 10; 
-        m[1][3] = 11;
+        A[1][0] = 3; 
+        A[1][1] = 0; 
+        A[1][2] = 0; 
         
-        m[2][0] = 12; 
-        m[2][1] = 13; 
-        m[2][2] = 14; 
-        m[2][3] = 15;
+        A[2][0] = 5; 
+        A[2][1] = 1; 
+        A[2][2] = 1; 
         
-        m[3][0] = 16; 
-        m[3][1] = 17; 
-        m[3][2] = 18; 
-        m[3][3] = 19;
+        Matrix mx = new Matrix(A);
         
-        
-        Matrix mx = new Matrix(m);
-        //mx.setMatriz();
         mx.viewMatrix();
         
+        System.out.println(mx.getMeanDiagonal2());
+        System.out.println(mx.getMeanAboveDiagonal2());
         System.out.println(mx.getMeanUnderDiagonal2());
+          
+        double[][] B = new double[3][3];
+        B[0][0] = 1; 
+        B[0][1] = 0; 
+        B[0][2] = 1; 
         
+        B[1][0] = 1; 
+        B[1][1] = 2; 
+        B[1][2] = 1; 
         
+        B[2][0] = 1; 
+        B[2][1] = 1; 
+        B[2][2] = 0; 
+        
+        mx.viewMatrix(mx.getMultiplication(B));
     }
 }
