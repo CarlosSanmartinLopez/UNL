@@ -170,8 +170,11 @@ public class Matrix
         
         mx.viewMatrix();
         
+        System.out.print("Promedio Diagonal Secundaria: ");
         System.out.println(mx.getMeanDiagonal2());
+        System.out.print("Promedio Sobre La Diagonal Secundaria: ");
         System.out.println(mx.getMeanAboveDiagonal2());
+        System.out.print("Promedio Bajo La Diagonal Secundaria: ");
         System.out.println(mx.getMeanUnderDiagonal2());
           
         double[][] B = new double[3][3];
@@ -187,6 +190,10 @@ public class Matrix
         B[2][1] = 1; 
         B[2][2] = 0; 
         
+        System.out.println("Matriz Transpuesta: ");
+        mx.viewMatrix(mx.getTransposedMatrix());
+        System.out.println("");
+        System.out.println("Multiplicacion de la Matriz: ");
         mx.viewMatrix(mx.getMultiplication(B));
     }
 }
