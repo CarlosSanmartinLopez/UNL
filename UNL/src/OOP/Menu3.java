@@ -126,7 +126,7 @@ public class Menu3
             }
             
             System.out.println("Ingresa una de las siguientes opciones");
-            System.out.println("1. Ingresar Cadena (Maximo 5 palabras)");
+            System.out.println("1. Ingresar Cadena");
             System.out.println("2. Ingresar Número");
             System.out.println("3. Mostrar Cadena");
             System.out.println("4. Mostrar Número");
