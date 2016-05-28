@@ -71,7 +71,7 @@ public class Menu3
         return sc.nextLine();
     }
     
-    public static void controlSubMenu()
+    public static void controlSubMenu(int lim)
     {
         getIntScannerIn();          
             
@@ -81,7 +81,10 @@ public class Menu3
             case 2:
             case 3:
             case 4:
-                    flagSubMenuInit = true;
+                    if(op>lim)
+                        System.out.println("### La opción No existe ###");
+                    else
+                        flagSubMenuInit = true;
                 break;
             case 5:
                     flagSubMenu = false;
@@ -130,7 +133,7 @@ public class Menu3
             System.out.println("5. SALIR");
             System.out.print("  Opción: ");
             
-            controlSubMenu();
+            controlSubMenu(4);
         }        
     }
     
@@ -224,7 +227,7 @@ public class Menu3
             System.out.println("5. SALIR");
             System.out.print("  Opción: ");
             
-            controlSubMenu();
+            controlSubMenu(3);
         }        
     }
     
@@ -262,7 +265,7 @@ public class Menu3
             System.out.println("5. SALIR");
             System.out.print("  Opción: ");
             
-            controlSubMenu();
+            controlSubMenu(3);
         }
     }
     
