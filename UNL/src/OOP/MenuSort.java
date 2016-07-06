@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Stelliox.com
+ * Copyright (C) 2016 Carlos Sanamrtin
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,17 +31,41 @@ public class MenuSort
     
     private int op;
     private boolean flag = true;
+    private boolean flagSubMenu = true;
+    private boolean flagSubMenuInit = false;
     
     private static final String BLUE = "\u001B[34m";
     private static final String BLACK = "\u001B[30m";
-    private int lim;
+    private int lim, limC;
     private int[] vector;
-    private int[] vectorSort;
+    private int[][] matrix;
+    private int buffer;
+    private int rOc;
+    
+    public enum Array 
+    {
+        Vector, Matrix 
+    }
+    
+    public enum Sort 
+    {
+        Low, High 
+    }
+    
+    private Sort sort;
     
     public MenuSort()
     {
         sc = new Scanner(in, "ISO-8859-1");
         op = 0;
+        
+        vector = new int[]{7,3,1,9,0,5,8,2,6,4};
+        matrix = new int[][]{
+            {7,3,1,9},
+            {8,2,4,6},
+            {5,0,10,15}
+        };
+        rOc = 1;
     }
     
     public static  void viewVector(int[] v)
@@ -53,6 +77,18 @@ public class MenuSort
         System.out.println("");
     }
     
+    public static  void viewMatrix(int[][] m)
+    {
+        for (int[] w : m) 
+        {
+            for (int h : w) 
+            {
+                 System.out.print("["+BLUE+h+BLACK+"] ");
+            }
+           System.out.println("");
+        }
+        System.out.println("");
+    }
     public int getIntScannerIn()
     {
         while(true)
@@ -69,7 +105,30 @@ public class MenuSort
         
         return op;
     }
-      
+    
+    public void controlSubMenu(int lim)
+    {
+        getIntScannerIn();          
+            
+        switch(op)
+        {
+            case 5:
+                    flagSubMenu = false;
+                    flagSubMenuInit = false;
+                break;
+            default:
+                    if(op>lim)
+                    {
+                        flagSubMenuInit = false;
+                        System.out.println("### La opción No existe ###");
+                        sc.nextLine();
+                    }
+                    else
+                        flagSubMenuInit = true;
+                break;
+        }
+    }
+    
     public void setVector()
     {
         System.out.print("Limite > : ");
@@ -83,34 +142,292 @@ public class MenuSort
         }        
     }
     
-    public void sortVectorLow()
+    public void setMatrix()
     {
-        int buffer;
-        vectorSort = vector;
+        System.out.print("Limite FILAS> : ");
+        lim = getIntScannerIn();
+        
+        System.out.print("Limite COLUMNAS> : ");
+        limC = getIntScannerIn();
+        
+        matrix = new int[lim][limC];
+
+        for (int i = 0; i < matrix.length; i++) 
+        {
+            for (int j = 0; j < matrix[i].length; j++) 
+            {
+                System.out.print("["+i+"]["+j+"] > ");
+                matrix[i][j] = getIntScannerIn();
+            }
+        }        
+    }
+       
+    public void setArray(Array type)
+    {
+        if(type == Array.Vector)
+            setVector();
+        else
+            setMatrix();
+    }
+    
+    public void exchange(Array type)
+    {
+        
+        if(type == Array.Vector)
+        {
+            int[] vectorSort = vector.clone();
             for (int i = 0; i < vectorSort.length-1; i++) 
-                for (int j = 0; j < vectorSort.length-1; j++) 
-                    if(vectorSort[j] > vectorSort[j+1])
+                for (int j = 0; j < vectorSort.length-1; j++)
+                {
+                    if(vectorSort[j] > vectorSort[j+1] && sort == Sort.Low)
                     {
                         buffer = vectorSort[j+1];
                         vectorSort[j+1] = vectorSort[j];
                         vectorSort[j] = buffer;
+                        viewVector(vectorSort);
                     }
-            viewVector(vectorSort);
+                    else
+                        if(vectorSort[j] < vectorSort[j+1] && sort == Sort.High)
+                        {
+                            buffer = vectorSort[j+1];
+                            vectorSort[j+1] = vectorSort[j];
+                            vectorSort[j] = buffer;
+                            viewVector(vectorSort);
+                        }
+                    
+                }
+        }
+        else
+        {
+            int[][] matrixSort = matrix.clone();
+            for (int x = 0; x < matrixSort.length; x++) 
+            {
+                int[] vectorSort = matrixSort[x].clone();
+                for (int i = 0; i < vectorSort.length-1; i++) 
+                    for (int j = 0; j < vectorSort.length-1; j++)
+                    {
+                        if(vectorSort[j] > vectorSort[j+1] && sort == Sort.Low)
+                        {
+                            buffer = vectorSort[j+1];
+                            vectorSort[j+1] = vectorSort[j];
+                            vectorSort[j] = buffer;
+                            
+                            matrixSort[x] = vectorSort;
+                            viewMatrix(matrixSort);
+                        }
+                        else
+                            if(vectorSort[j] < vectorSort[j+1] && sort == Sort.High)
+                            {
+                                buffer = vectorSort[j+1];
+                                vectorSort[j+1] = vectorSort[j];
+                                vectorSort[j] = buffer;
+                                
+                                matrixSort[x] = vectorSort;
+                                viewMatrix(matrixSort);
+                            }
+
+                    }
+            }
+        }
     }
     
-    public void sortVectorHigh()
+    public void insertion(Array type)
     {
-        int buffer;
-        vectorSort = vector;
-            for (int i = 0; i < vectorSort.length-1; i++) 
-                for (int j = 0; j < vectorSort.length-1; j++) 
-                    if(vectorSort[j] < vectorSort[j+1])
+        
+        int j;
+        if(type == Array.Vector)
+        {
+            int[] vectorSort = vector.clone();
+            for (int i = 1; i < vectorSort.length; i++) 
+            {
+                int a = vectorSort[i];
+                j = i - 1;
+                
+                while (j >= 0 && vectorSort[j] > a && sort == Sort.Low) 
+                {                    
+                    vectorSort[j+1] = vectorSort[j];
+                    j--;
+                }
+                
+                while (j >= 0 && vectorSort[j] < a && sort == Sort.High) 
+                {                    
+                    vectorSort[j+1] = vectorSort[j];
+                    j--;
+                }
+                
+                vectorSort[j+1] = a;
+                viewVector(vectorSort);
+            }
+        }
+        else
+        {
+            int[][] matrixSort = matrix.clone();
+            for (int x = 0; x < matrixSort.length; x++) 
+            {
+               int[] vectorSort = matrixSort[x].clone();
+               for (int i = 1; i < vectorSort.length; i++) 
+               {
+                   int a = vectorSort[i];
+                   j = i - 1;
+
+                   while (j >= 0 && vectorSort[j] > a && sort == Sort.Low) 
+                   {                    
+                       vectorSort[j+1] = vectorSort[j];
+                       j--;
+                   }
+
+                   while (j >= 0 && vectorSort[j] < a && sort == Sort.High) 
+                   {                    
+                       vectorSort[j+1] = vectorSort[j];
+                       j--;
+                   }
+
+                   vectorSort[j+1] = a;
+                   matrixSort[x] = vectorSort;
+                   
+                   viewMatrix(matrixSort);
+               }
+               
+            }
+        }
+    }
+    
+    public void selection(Array type)
+    {
+        
+        int i, menor, pos, tmp;
+        if(type == Array.Vector)
+        {
+            int[] vectorSort = vector.clone();
+            for (i = 0; i < vectorSort.length-1; i++) 
+            {
+                menor = vectorSort[i];
+                pos = i;
+                
+                for (int j = i+1; j < vectorSort.length; j++) 
+                {
+                    if (vectorSort[j] < menor && sort == Sort.Low) 
                     {
-                        buffer = vectorSort[j+1];
-                        vectorSort[j+1] = vectorSort[j];
-                        vectorSort[j] = buffer;                        
-                    }       
-            viewVector(vectorSort);
+                        menor = vectorSort[j];
+                        pos = j;
+                    }else
+                    if (vectorSort[j] > menor && sort == Sort.High) 
+                    {
+                        menor = vectorSort[j];
+                        pos = j;
+                    }   
+                }
+                if ( pos != i)
+                {
+                    tmp = vectorSort[i];
+                    vectorSort[i] = vectorSort[pos];
+                    vectorSort[pos] = tmp;
+                }
+                viewVector(vectorSort);
+            }            
+        }
+        else
+        {
+            int[][] matrixSort = matrix.clone();
+            for (int x = 0; x < matrixSort.length; x++) 
+            {
+                int[] vectorSort = matrixSort[x].clone();
+                for (i = 0; i < vectorSort.length-1; i++) 
+                {
+                    menor = vectorSort[i];
+                    pos = i;
+
+                    for (int j = i+1; j < vectorSort.length; j++) 
+                    {
+                        if (vectorSort[j] < menor && sort == Sort.Low) 
+                        {
+                            menor = vectorSort[j];
+                            pos = j;
+                        }else
+                        if (vectorSort[j] > menor && sort == Sort.High) 
+                        {
+                            menor = vectorSort[j];
+                            pos = j;
+                        }   
+                    }
+                    if ( pos != i)
+                    {
+                        tmp = vectorSort[i];
+                        vectorSort[i] = vectorSort[pos];
+                        vectorSort[pos] = tmp;
+                    }
+                    matrixSort[x] = vectorSort;
+                    viewMatrix(matrixSort);
+                }
+            }         
+        }
+    }
+    
+    public void menu3(Array type)
+    {
+        while (true) 
+        {   
+            System.out.println("Elige uno de los siguientes Metodos");
+            System.out.println("1. Intercambio");
+            System.out.println("2. Selección");
+            System.out.println("3. Inserción");
+            
+            System.out.println("5. SALIR");
+            
+            getIntScannerIn();
+            
+            if(op == 5)
+                break;
+            else
+            {   if(op == 1)
+                    exchange(type);
+                else
+                if(op == 2)
+                    selection(type);
+                else
+                if(op == 3)
+                    insertion(type);
+            }
+                
+        }
+    }
+    
+    public void menu2(Array type)
+    {
+        flagSubMenu = true;
+        
+        while (flagSubMenu) 
+        {
+            if(flagSubMenuInit)
+            {
+                switch(op)
+                {
+                    case 1:
+                        setArray(type);
+                        break;
+                    case 2:
+                    case 3:
+                        if(op == 2)
+                            sort = Sort.Low;
+                        else
+                            sort = Sort.High;
+                        
+                        
+                        menu3(type);
+                        break;
+                }
+            }
+            
+            System.out.println("Ingresa una de las siguientes opciones");
+            System.out.println("1. Ingresar");
+            System.out.println("2. Ordenar de Menor a Mayor");
+            System.out.println("3. Ordenar de Mayor a Menor");
+            
+            System.out.println("5. SALIR");
+            System.out.print("  Opción: ");
+            
+            controlSubMenu(3);
+        } 
     }
     
     public void init()
@@ -118,10 +435,8 @@ public class MenuSort
         while (flag) 
         {            
             System.out.println("Ingresa una de las siguientes opciones");
-            System.out.println("1. Ingresar Vector");
-            System.out.println("2. Ordenar de Mayor a Menor");
-            System.out.println("3. Ordenar de Menor a Mayor");
-            System.out.println("3. Ver vector Original");
+            System.out.println("1. Vector");
+            System.out.println("2. Martiz");
             System.out.println("5. Salir");
             
             System.out.print("Opción: ");
@@ -131,16 +446,10 @@ public class MenuSort
             switch(op)
             {
                 case 1:
-                        setVector();
+                        menu2(Array.Vector);
                     break;
                 case 2:
-                        sortVectorHigh();
-                    break;
-                case 3:
-                        sortVectorLow();
-                    break;
-                case 4:
-                        viewVector(vector);
+                        menu2(Array.Matrix);
                     break;
                 case 5:
                         flag = false;
