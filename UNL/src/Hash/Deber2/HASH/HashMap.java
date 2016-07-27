@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Hash.Deber;
+package Hash.Deber2.HASH;
 
 import java.util.AbstractList;
 import java.util.ArrayList;

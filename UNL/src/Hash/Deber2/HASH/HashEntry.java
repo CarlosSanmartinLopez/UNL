@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Stelliox.com
+ * Copyright (C) 2016 Carlos Sanmartin
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,25 +15,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package Test;
 
-import OOP.Sort;
+package Hash.Deber2.HASH;
 
 /**
  *
- * @author Stelliox.com
+ * @author Carlos Sanmartin
  */
-public class SortTest 
+public class HashEntry 
 {
-    public static void main(String[] args) 
+    private String key;
+    private String value;
+    
+    HashEntry(String key, String value) 
     {
-        Sort sr = new Sort(new int[]{30, 5, 7, 8, 15, 4, 0, 6, 9});
-        
-        Sort.Exchange srE = sr.exchange();
-        
-        srE.bubbleSort();
-        srE.viewVectorOriginal();
-        //srE.coctailSort();
-        
+        this.key = key;
+        this.value = value;
+    } 
+
+    public String getKey() 
+    {
+        return key;
     }
+
+    public String getValue() 
+    {
+        return value;
+    }   
 }

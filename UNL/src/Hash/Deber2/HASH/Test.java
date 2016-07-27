@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Hash.Deber;
+package Hash.Deber2.HASH;
 
 /**
  *
@@ -11,8 +11,10 @@ package Hash.Deber;
  */
 public class Test 
 {
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
+        long TInicio, TFin, tiempo;
+        TInicio = System.currentTimeMillis(); 
+        
         HashMap hashMap = new HashMap(22);
         
         hashMap.put("0706215738","ARMIJOS BRAVO STEEVEN MICHAEL");
@@ -38,12 +40,17 @@ public class Test
         hashMap.put("1150692414","VILLAMAGUA POMA JHULISSA ISABEL");
         hashMap.put("1104787021","VITERI JUMBO JUAN GABRIEL");
         
-        hashMap.viewTable();
-        System.out.println();
-        System.out.println("Colisiones Totales -> "+hashMap.getNumberCollision());
+//        hashMap.viewTable();
+//        
+//        System.out.println("Colisiones Totales -> "+hashMap.getNumberCollision());
         
 //        System.out.println(" ");
-//        String search = "0401197298";
-//        System.out.println(search+" >> "+hashMap.get(search));
+        String search = "1104955107";
+        System.out.println(search+" >> "+hashMap.get(search));
+        
+        TFin = System.currentTimeMillis();
+        tiempo = TFin - TInicio;
+        
+        System.out.println("TIEMPO (milisegundos)> "+ tiempo);
     }
 }
