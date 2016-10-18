@@ -21,5 +21,5 @@ package CubeMagic;
  * @author 2do A Programacion
  */
 public class CubeMagic {
-    
+    zs
 }
