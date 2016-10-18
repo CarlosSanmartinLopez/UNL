@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 2do A Programacion
+ * Copyright (C) 2016 Carlos Andres Sanmartín López
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,10 +16,16 @@
  */
 package CubeMagic;
 
+import java.util.Random;
+
 /**
  *
- * @author 2do A Programacion
+ * @author Carlos Andres Sanmartín López
  */
-public class CubeMagic {
-   
+public class Test { 
+    public static void main(String[] args) {
+        SquareMagic cm = new SquareMagic(5);
+            cm.viewV();
+            cm.viewM();
+    }
 }
