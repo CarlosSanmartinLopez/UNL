@@ -16,7 +16,6 @@
  */
 package CubeMagic;
 
-import java.util.Random;
 
 /**
  *
@@ -24,8 +23,8 @@ import java.util.Random;
  */
 public class Test { 
     public static void main(String[] args) {
-        SquareMagic cm = new SquareMagic(5);
-            cm.viewV();
+        SquareMagic cm = new SquareMagic(4);
+            //cm.viewV();
             cm.viewM();
     }
 }

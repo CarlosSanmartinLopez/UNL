@@ -73,11 +73,13 @@ public class SquareMagic {
                 for (int j = 0; j < M[i].length; j++) {
                     if(i == j)
                         M[M.length-j-1][M.length-i-1] = V[k];
-                        if((M.length-j-1) == i) {
-                            System.out.println(i+" - "+j);
-                            M[j][i] = V[k];
+                        if(j == i) {
+                            M[M.length-1-i][M.length-1-j] = V[k];
                         }
                         else
+                            if((M.length-1-1) == i)
+                                M[j][i] = V[k];
+                            else
                             M[i][j] = V[k];
                     k++;
                 }
