@@ -23,11 +23,16 @@ package Determinat;
 public class Test {
     public static void main(String[] args) {
         double[][] matrix = new double[][]{
-            {2, 3, 1, 1},
-            {6, -2, -1, -14},
-            {3, 1, -1, 1}
+            {5, 6, -10},
+            {2, 3, -1}
         };
         
+//        double[][] matrix = new double[][]{
+//            {2, 3, 1, 6},
+//            {6, -2, -1, 3},
+//            {3, 1, -1, 4}
+//        };
+//        
         Determinant determinant = new Determinant(matrix);
     }
 }

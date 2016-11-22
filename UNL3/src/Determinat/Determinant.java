@@ -35,11 +35,23 @@ public class Determinant {
         variables = new double[equations[0].length-1];
         
         deltaSystem = delta(-1);
+        
         for (int i = 0; i < equations[0].length-1; i++) {
             variables[i] = (delta(i)/deltaSystem);
             
             System.out.println(variables[i]);
-        } 
+        }
+        
+        double v;
+        double ev = 0;
+        for (int i = 0; i < equations.length; i++) {
+            v = 0;
+            ev = equations[i][equations[i].length-1];
+            for (int j = 0; j < equations[0].length-1; j++) {
+                v += equations[i][j]*variables[j];
+            }
+            System.out.println("Value -> "+v+" | Expected Value -> "+ev);
+        }
     }
     
     private void changeValues(int p) {
@@ -73,22 +85,22 @@ public class Determinant {
             x = i;
             y = 0;
             m = 1; 
-            while (y < equations.length) {  
+            while (y < equations[0].length-1) {   
                 m *= equationsList.get(x)[y];
                 
                 x++; 
                 y++;
-            }
+            } 
             s0 += m;
             i++;
-        }
+        } 
         
         i = 0;
         while (i < equations.length) {
             x = equationsList.size()-1-i;
             y = 0;
             m = 1; 
-            while (y < equations.length) {  
+            while (y < equations[0].length-1) {  
                 m *= equationsList.get(x)[y];
                 
                 x--; 
