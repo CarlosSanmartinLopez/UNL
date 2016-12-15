@@ -13,12 +13,12 @@ package Tree;
 public class Node {
     private int value;
     
-    private Node root; 
     private Node leftChild; 
     private Node rightChild; 
 
     public Node(int value) {
         this.value = value;
+        leftChild = rightChild = null;
     }
 
     public int getValue() {
@@ -27,14 +27,6 @@ public class Node {
 
     public void setValue(int value) {
         this.value = value;
-    }
-
-    public Node getRoot() {
-        return root;
-    }
-
-    public void setRoot(Node root) {
-        this.root = root;
     }
 
     public Node getLeftChild() {
